@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LeadPulse — AI Sales Outreach Dashboard</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #1a1a1a; min-height: 100vh; }
+    .app { max-width: 1200px; margin: 0 auto; background: #fff; min-height: 100vh; box-shadow: 0 0 0 1px rgba(0,0,0,0.08); }
+
+    /* Topbar */
+    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border-bottom: 1px solid #eee; background: #fff; }
+    .logo { font-size: 18px; font-weight: 600; color: #1a1a1a; }
+    .logo span { color: #16a370; }
+    .topbar-right { display: flex; gap: 8px; }
+
+    /* Buttons */
+    .btn { font-size: 13px; padding: 7px 14px; border-radius: 8px; border: 1px solid #ddd; background: #fff; color: #1a1a1a; cursor: pointer; transition: all .15s; font-family: inherit; }
+    .btn:hover { background: #f5f5f5; }
+    .btn-primary { background: #16a370; color: #fff; border-color: #16a370; }
+    .btn-primary:hover { background: #0f7a54; border-color: #0f7a54; }
+    .btn-sm { font-size: 12px; padding: 5px 12px; }
+    .btn-danger { color: #dc2626; border-color: #dc2626; }
+    .btn-danger:hover { background: #fef2f2; }
+
+    /* Stats */
+    .stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; padding: 16px 24px; border-bottom: 1px solid #eee; background: #fafafa; }
+    .stat { background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 14px 16px; }
+    .stat-label { font-size: 11px; color: #888; margin-bottom: 4px; text-transform: uppercase; letter-spacing: .04em; }
+    .stat-val { font-size: 24px; font-weight: 600; color: #1a1a1a; }
+    .stat-sub { font-size: 11px; color: #aaa; margin-top: 2px; }
+
+    /* Main layout */
+    .main { display: flex; min-height: 500px; }
+    .lead-panel { flex: 1; padding: 20px 24px; overflow-y: auto; }
+    .panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
+    .panel-title { font-size: 14px; font-weight: 600; color: #1a1a1a; }
+    .filters { display: flex; gap: 6px; flex-wrap: wrap; }
+    .filter-pill { font-size: 12px; padding: 4px 12px; border-radius: 99px; border: 1px solid #ddd; background: #fff; color: #888; cursor: pointer; transition: all .15s; font-family: inherit; }
+    .filter-pill.active { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+
+    /* Table */
+    .lead-table { width: 100%; border-collapse: collapse; }
+    .lead-table th { font-size: 11px; font-weight: 600; color: #888; text-align: left; padding: 8px 12px; border-bottom: 1px solid #eee; text-transform: uppercase; letter-spacing: .04em; }
+    .lead-table td { font-size: 13px; padding: 11px 12px; border-bottom: 1px solid #f5f5f5; color: #1a1a1a; vertical-align: middle; }
+    .lead-row { cursor: pointer; transition: background .1s; }
+    .lead-row:hover { background: #fafafa; }
+    .lead-row.selected { background: #f0fdf8; }
+    .status-badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 4px; }
+    .s-new { background: #eff6ff; color: #2563eb; }
+    .s-contacted { background: #fffbeb; color: #d97706; }
+    .s-replied { background: #f0fdf4; color: #16a34a; }
+    .s-closed { background: #f5f3ff; color: #7c3aed; }
+    .overdue-tag { color: #dc2626; font-size: 11px; font-weight: 600; display: block; margin-top: 2px; }
+    .empty-state { text-align: center; padding: 48px 24px; color: #aaa; font-size: 14px; }
+
+    /* Detail panel */
+    .detail-panel { width: 360px; border-left: 1px solid #eee; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; background: #fafafa; }
+    .detail-panel.hidden { display: none; }
+    .detail-name { font-size: 16px; font-weight: 600; color: #1a1a1a; }
+    .detail-meta { font-size: 12px; color: #888; margin-top: 3px; line-height: 1.6; }
+    .section-lbl { font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+    .status-row, .tone-row { display: flex; gap: 6px; flex-wrap: wrap; }
+    .status-opt, .tone-opt { font-size: 12px; padding: 5px 12px; border-radius: 99px; border: 1px solid #ddd; background: #fff; color: #888; cursor: pointer; font-family: inherit; transition: all .15s; }
+    .status-opt.active { border-color: #16a370; color: #16a370; background: #f0fdf8; }
+    .tone-opt.active { border-color: #7c3aed; color: #7c3aed; background: #f5f3ff; }
+
+    /* API key box */
+    .api-box { background: #f0fdf8; border: 1px solid #bbf7d0; border-radius: 10px; padding: 12px 14px; }
+    .api-box p { font-size: 12px; color: #166534; line-height: 1.6; margin-bottom: 8px; }
+    .api-box input { width: 100%; font-size: 13px; padding: 8px 10px; border-radius: 8px; border: 1px solid #ddd; background: #fff; color: #1a1a1a; font-family: inherit; }
+    .key-saved-msg { font-size: 12px; color: #16a370; font-weight: 500; display: none; margin-top: 6px; }
+
+    /* Email output */
+    .email-box { background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 14px; font-size: 13px; color: #1a1a1a; line-height: 1.7; min-height: 140px; white-space: pre-wrap; word-break: break-word; }
+    .placeholder-txt { color: #bbb; font-style: italic; }
+    .gen-row { display: flex; gap: 8px; }
+    .bottom-row { display: flex; gap: 8px; margin-top: auto; }
+
+    /* Modal */
+    .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 100; }
+    .modal { background: #fff; border-radius: 14px; padding: 24px; width: 360px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
+    .modal-title { font-size: 16px; font-weight: 600; color: #1a1a1a; margin-bottom: 18px; }
+    .field { margin-bottom: 13px; }
+    .field label { font-size: 12px; color: #666; display: block; margin-bottom: 4px; font-weight: 500; }
+    .field input, .field select { width: 100%; font-size: 13px; padding: 9px 11px; border-radius: 8px; border: 1px solid #ddd; background: #fff; color: #1a1a1a; font-family: inherit; }
+    .field input:focus, .field select:focus { outline: none; border-color: #16a370; }
+    .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 18px; }
+
+    @media (max-width: 768px) {
+      .stats { grid-template-columns: repeat(2,1fr); }
+      .detail-panel { width: 100%; border-left: none; border-top: 1px solid #eee; }
+      .main { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="logo">Lead<span>Pulse</span></div>
+    <div class="topbar-right">
+      <button class="btn btn-sm" onclick="exportCSV()">Export CSV</button>
+      <button class="btn btn-primary btn-sm" onclick="openModal()">+ Add Lead</button>
+    </div>
+  </div>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="main">
+    <div class="lead-panel">
+      <div class="panel-header">
+        <div class="panel-title">All leads</div>
+        <div class="filters">
+          <button class="filter-pill active" onclick="setFilter('all',this)">All</button>
+          <button class="filter-pill" onclick="setFilter('New',this)">New</button>
+          <button class="filter-pill" onclick="setFilter('Contacted',this)">Contacted</button>
+          <button class="filter-pill" onclick="setFilter('Replied',this)">Replied</button>
+          <button class="filter-pill" onclick="setFilter('Closed',this)">Closed</button>
+        </div>
+      </div>
+      <table class="lead-table">
+        <thead><tr><th>Name</th><th>Company</th><th>Role</th><th>Status</th><th>Last contact</th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <div id="empty" class="empty-state" style="display:none">No leads yet — click "+ Add Lead" to get started.</div>
+    </div>
+
+    <div class="detail-panel hidden" id="detail">
+      <div>
+        <div class="detail-name" id="d-name"></div>
+        <div class="detail-meta" id="d-meta"></div>
+      </div>
+      <div>
+        <div class="section-lbl">Pipeline stage</div>
+        <div class="status-row" id="d-status"></div>
+      </div>
+      <div>
+        <div class="section-lbl">Email tone</div>
+        <div class="tone-row">
+          <button class="tone-opt active" onclick="setTone('Formal',this)">Formal</button>
+          <button class="tone-opt" onclick="setTone('Friendly',this)">Friendly</button>
+          <button class="tone-opt" onclick="setTone('Direct',this)">Direct</button>
+        </div>
+      </div>
+      <div id="key-section">
+        <div class="section-lbl">Claude API key</div>
+        <div class="api-box">
+          <p>Paste your Anthropic API key (starts with sk-ant-). It's stored in your browser only and sent directly to Anthropic — never anywhere else.</p>
+          <input type="password" id="key-input" placeholder="sk-ant-...">
+          <div class="key-saved-msg" id="key-saved">Key saved — ready to generate emails.</div>
+        </div>
+        <button class="btn btn-primary btn-sm" style="width:100%;margin-top:8px" onclick="saveKey()">Save key</button>
+      </div>
+      <div class="gen-row">
+        <button class="btn btn-primary" style="flex:1" id="gen-btn" onclick="generateEmail()">Generate email</button>
+        <button class="btn btn-sm" id="copy-btn" style="display:none" onclick="copyEmail()">Copy</button>
+      </div>
+      <div class="email-box" id="email-out"><span class="placeholder-txt">Pick a tone and hit Generate — a personalized cold email will appear here.</span></div>
+      <div class="bottom-row">
+        <button class="btn btn-sm" style="flex:1" onclick="markContacted()">Mark contacted</button>
+        <button class="btn btn-sm btn-danger" style="flex:1" onclick="deleteLead()">Delete lead</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="modal" style="display:none" class="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-title">Add new lead</div>
+    <div class="field"><label>Full name *</label><input id="f-name" placeholder="Jane Smith"></div>
+    <div class="field"><label>Company *</label><input id="f-co" placeholder="Acme Corp"></div>
+    <div class="field"><label>Role / title</label><input id="f-role" placeholder="VP of Sales"></div>
+    <div class="field"><label>Email</label><input id="f-email" placeholder="jane@acme.com"></div>
+    <div class="field"><label>Status</label>
+      <select id="f-status"><option>New</option><option>Contacted</option><option>Replied</option><option>Closed</option></select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="addLead()">Add lead</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function daysAgo(n){const d=new Date();d.setDate(d.getDate()-n);return d.toISOString().split('T')[0];}
+  let leads=JSON.parse(localStorage.getItem('lp_leads')||'[]');
+  if(!leads.length){
+    leads=[
+      {id:1,name:'Sarah Chen',company:'Brightside Insurance',role:'Operations Director',email:'s.chen@brightside.com',status:'New',lastContact:null},
+      {id:2,name:'Marcus Webb',company:'Webb & Associates',role:'Managing Partner',email:'m.webb@webblaw.com',status:'Contacted',lastContact:daysAgo(2)},
+      {id:3,name:'Priya Nair',company:'NovaTech Solutions',role:'Head of Sales',email:'p.nair@novatech.io',status:'Replied',lastContact:daysAgo(1)},
+      {id:4,name:'Tom Garrett',company:'Garrett Realty Group',role:'Founder',email:'tom@garrettrealty.com',status:'Contacted',lastContact:daysAgo(5)},
+      {id:5,name:'Lisa Monroe',company:'Monroe Consulting',role:'CEO',email:'lisa@monroeconsulting.com',status:'Closed',lastContact:daysAgo(3)},
+    ];
+    save();
+  }
+  let selId=null,filter='all',tone='Formal';
+  let apiKey=localStorage.getItem('lp_claude_key')||'';
+
+  function save(){localStorage.setItem('lp_leads',JSON.stringify(leads));}
+  function isOverdue(l){if(!l.lastContact||l.status==='Closed')return false;return Math.floor((Date.now()-new Date(l.lastContact))/86400000)>=3;}
+  function daysSince(d){return d?Math.floor((Date.now()-new Date(d))/86400000):null;}
+
+  function renderStats(){
+    const total=leads.length;
+    const contacted=leads.filter(l=>l.status!=='New').length;
+    const replied=leads.filter(l=>l.status==='Replied'||l.status==='Closed').length;
+    const overdue=leads.filter(isOverdue).length;
+    const rate=total?Math.round(contacted/total*100):0;
+    document.getElementById('stats').innerHTML=`
+      <div class="stat"><div class="stat-label">Total leads</div><div class="stat-val">${total}</div></div>
+      <div class="stat"><div class="stat-label">Contacted</div><div class="stat-val">${contacted}</div><div class="stat-sub">${rate}% of pipeline</div></div>
+      <div class="stat"><div class="stat-label">Replied</div><div class="stat-val">${replied}</div></div>
+      <div class="stat"><div class="stat-label">Overdue</div><div class="stat-val" style="color:${overdue>0?'#dc2626':'inherit'}">${overdue}</div></div>`;
+  }
+
+  function renderTable(){
+    const list=filter==='all'?leads:leads.filter(l=>l.status===filter);
+    document.getElementById('empty').style.display=list.length?'none':'block';
+    const sc={New:'s-new',Contacted:'s-contacted',Replied:'s-replied',Closed:'s-closed'};
+    document.getElementById('tbody').innerHTML=list.map(l=>{
+      const ds=daysSince(l.lastContact);
+      const last=ds===null?'—':ds===0?'Today':ds===1?'Yesterday':`${ds}d ago`;
+      const od=isOverdue(l);
+      return `<tr class="lead-row${selId===l.id?' selected':''}" onclick="selectLead(${l.id})">
+        <td><span style="font-weight:600">${l.name}</span>${od?'<span class="overdue-tag">Follow up now</span>':''}</td>
+        <td>${l.company}</td>
+        <td style="color:#888">${l.role}</td>
+        <td><span class="status-badge ${sc[l.status]}">${l.status}</span></td>
+        <td style="color:${od?'#dc2626':'#888'}">${last}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  function selectLead(id){
+    selId=id;
+    const l=leads.find(x=>x.id===id);if(!l)return;
+    document.getElementById('detail').classList.remove('hidden');
+    document.getElementById('d-name').textContent=l.name;
+    document.getElementById('d-meta').textContent=`${l.role} · ${l.company}${l.email?' · '+l.email:''}`;
+    document.getElementById('d-status').innerHTML=['New','Contacted','Replied','Closed'].map(s=>
+      `<button class="status-opt${l.status===s?' active':''}" onclick="setStatus('${s}',this)">${s}</button>`
+    ).join('');
+    document.getElementById('key-section').style.display=apiKey?'none':'block';
+    document.getElementById('email-out').innerHTML='<span class="placeholder-txt">Pick a tone and hit Generate — a personalized cold email will appear here.</span>';
+    document.getElementById('copy-btn').style.display='none';
+    renderTable();
+  }
+
+  function setStatus(s,el){
+    const l=leads.find(x=>x.id===selId);if(!l)return;
+    l.status=s;save();renderStats();renderTable();
+    document.querySelectorAll('.status-opt').forEach(b=>b.classList.remove('active'));
+    el.classList.add('active');
+  }
+  function setTone(t,el){tone=t;document.querySelectorAll('.tone-opt').forEach(b=>b.classList.remove('active'));el.classList.add('active');}
+  function setFilter(f,el){filter=f;document.querySelectorAll('.filter-pill').forEach(b=>b.classList.remove('active'));el.classList.add('active');renderTable();}
+
+  function saveKey(){
+    const v=document.getElementById('key-input').value.trim();if(!v)return;
+    apiKey=v;localStorage.setItem('lp_claude_key',apiKey);
+    document.getElementById('key-section').style.display='none';
+    const m=document.getElementById('key-saved');m.style.display='block';setTimeout(()=>m.style.display='none',3000);
+  }
+
+  async function generateEmail(){
+    const l=leads.find(x=>x.id===selId);if(!l)return;
+    if(!apiKey){document.getElementById('key-section').style.display='block';return;}
+    const btn=document.getElementById('gen-btn');
+    btn.textContent='Generating...';btn.disabled=true;
+    document.getElementById('email-out').innerHTML='<span class="placeholder-txt">Writing your email...</span>';
+    const prompt=`Write a ${tone.toLowerCase()} cold outreach email to ${l.name}, who is the ${l.role} at ${l.company}. The sender is a freelance developer who builds AI-powered sales and automation tools for businesses. Keep it concise — 3 short paragraphs. Write the subject line first, then the body. No placeholders — write it ready to send.`;
+    try{
+      const res=await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01'},
+        body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:500,messages:[{role:'user',content:prompt}]})
+      });
+      const data=await res.json();
+      if(data.error)throw new Error(data.error.message);
+      document.getElementById('email-out').textContent=data.content[0].text;
+      document.getElementById('copy-btn').style.display='inline-block';
+    }catch(e){
+      document.getElementById('email-out').innerHTML=`<span style="color:#dc2626">Error: ${e.message}</span>`;
+    }
+    btn.textContent='Generate email';btn.disabled=false;
+  }
+
+  function copyEmail(){
+    navigator.clipboard.writeText(document.getElementById('email-out').textContent).then(()=>{
+      const b=document.getElementById('copy-btn');b.textContent='Copied!';setTimeout(()=>b.textContent='Copy',1500);
+    });
+  }
+
+  function markContacted(){
+    const l=leads.find(x=>x.id===selId);if(!l)return;
+    l.lastContact=new Date().toISOString().split('T')[0];
+    if(l.status==='New')l.status='Contacted';
+    save();renderStats();renderTable();selectLead(selId);
+  }
+
+  function deleteLead(){
+    leads=leads.filter(x=>x.id!==selId);selId=null;
+    document.getElementById('detail').classList.add('hidden');
+    save();renderStats();renderTable();
+  }
+
+  function openModal(){document.getElementById('modal').style.display='flex';}
+  function closeModal(){document.getElementById('modal').style.display='none';}
+
+  function addLead(){
+    const name=document.getElementById('f-name').value.trim();
+    const co=document.getElementById('f-co').value.trim();
+    if(!name||!co){alert('Name and company are required.');return;}
+    leads.push({id:Date.now(),name,company:co,role:document.getElementById('f-role').value.trim()||'Unknown',email:document.getElementById('f-email').value.trim(),status:document.getElementById('f-status').value,lastContact:null});
+    save();renderStats();renderTable();closeModal();
+    ['f-name','f-co','f-role','f-email'].forEach(id=>document.getElementById(id).value='');
+  }
+
+  function exportCSV(){
+    const rows=leads.map(l=>`"${l.name}","${l.company}","${l.role}","${l.email||''}","${l.status}","${l.lastContact||''}"`);
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(new Blob(['Name,Company,Role,Email,Status,Last Contact\n'+rows.join('\n')],{type:'text/csv'}));
+    a.download='leadpulse_leads.csv';a.click();
+  }
+
+  renderStats();
+  renderTable();
+</script>
+</body>
+</html>

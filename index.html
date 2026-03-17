@@ -9,6 +9,11 @@
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #1a1a1a; min-height: 100vh; }
     .app { max-width: 1200px; margin: 0 auto; background: #fff; min-height: 100vh; box-shadow: 0 0 0 1px rgba(0,0,0,0.08); }
 
+    /* Demo banner */
+    .demo-banner { background: #1a1a1a; color: #fff; text-align: center; padding: 10px 24px; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
+    .demo-banner strong { color: #4ade80; }
+    .demo-banner a { color: #4ade80; text-decoration: underline; cursor: pointer; }
+
     /* Topbar */
     .topbar { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border-bottom: 1px solid #eee; background: #fff; }
     .logo { font-size: 18px; font-weight: 600; color: #1a1a1a; }
@@ -66,17 +71,16 @@
     .status-opt.active { border-color: #16a370; color: #16a370; background: #f0fdf8; }
     .tone-opt.active { border-color: #7c3aed; color: #7c3aed; background: #f5f3ff; }
 
-    /* API key box */
-    .api-box { background: #f0fdf8; border: 1px solid #bbf7d0; border-radius: 10px; padding: 12px 14px; }
-    .api-box p { font-size: 12px; color: #166534; line-height: 1.6; margin-bottom: 8px; }
-    .api-box input { width: 100%; font-size: 13px; padding: 8px 10px; border-radius: 8px; border: 1px solid #ddd; background: #fff; color: #1a1a1a; font-family: inherit; }
-    .key-saved-msg { font-size: 12px; color: #16a370; font-weight: 500; display: none; margin-top: 6px; }
-
     /* Email output */
     .email-box { background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 14px; font-size: 13px; color: #1a1a1a; line-height: 1.7; min-height: 140px; white-space: pre-wrap; word-break: break-word; }
     .placeholder-txt { color: #bbb; font-style: italic; }
     .gen-row { display: flex; gap: 8px; }
     .bottom-row { display: flex; gap: 8px; margin-top: auto; }
+
+    /* Private CTA box */
+    .cta-box { background: #f0fdf8; border: 1px solid #bbf7d0; border-radius: 10px; padding: 14px 16px; }
+    .cta-box p { font-size: 13px; color: #166534; line-height: 1.6; margin-bottom: 10px; }
+    .cta-box strong { font-weight: 600; }
 
     /* Modal */
     .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 100; }
@@ -88,6 +92,13 @@
     .field input:focus, .field select:focus { outline: none; border-color: #16a370; }
     .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 18px; }
 
+    /* Contact modal */
+    .contact-modal { background: #fff; border-radius: 14px; padding: 24px; width: 400px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
+    .contact-modal h2 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+    .contact-modal p { font-size: 13px; color: #666; line-height: 1.6; margin-bottom: 16px; }
+    .contact-modal ul { font-size: 13px; color: #444; line-height: 2; padding-left: 18px; margin-bottom: 16px; }
+    .contact-modal .close-btn { width: 100%; }
+
     @media (max-width: 768px) {
       .stats { grid-template-columns: repeat(2,1fr); }
       .detail-panel { width: 100%; border-left: none; border-top: 1px solid #eee; }
@@ -97,6 +108,13 @@
 </head>
 <body>
 <div class="app">
+
+  <!-- Demo banner -->
+  <div class="demo-banner">
+    <span>You're using the <strong>Demo version</strong> of LeadPulse.</span>
+    <span>Want a private instance with your own API key? <a onclick="openContactModal()">Get in touch →</a></span>
+  </div>
+
   <div class="topbar">
     <div class="logo">Lead<span>Pulse</span></div>
     <div class="topbar-right">
@@ -143,20 +161,18 @@
           <button class="tone-opt" onclick="setTone('Direct',this)">Direct</button>
         </div>
       </div>
-      <div id="key-section">
-        <div class="section-lbl">Claude API key</div>
-        <div class="api-box">
-          <p>Paste your Anthropic API key (starts with sk-ant-). It's stored in your browser only and sent directly to Anthropic — never anywhere else.</p>
-          <input type="password" id="key-input" placeholder="sk-ant-...">
-          <div class="key-saved-msg" id="key-saved">Key saved — ready to generate emails.</div>
-        </div>
-        <button class="btn btn-primary btn-sm" style="width:100%;margin-top:8px" onclick="saveKey()">Save key</button>
-      </div>
       <div class="gen-row">
         <button class="btn btn-primary" style="flex:1" id="gen-btn" onclick="generateEmail()">Generate email</button>
         <button class="btn btn-sm" id="copy-btn" style="display:none" onclick="copyEmail()">Copy</button>
       </div>
       <div class="email-box" id="email-out"><span class="placeholder-txt">Pick a tone and hit Generate — a personalized cold email will appear here.</span></div>
+
+      <!-- Private version CTA -->
+      <div class="cta-box">
+        <p><strong>Want this for your business?</strong> Get a private version with your own branding, your own leads, and your own API key — nobody else has access.</p>
+        <button class="btn btn-primary btn-sm" style="width:100%" onclick="openContactModal()">Get your private version →</button>
+      </div>
+
       <div class="bottom-row">
         <button class="btn btn-sm" style="flex:1" onclick="markContacted()">Mark contacted</button>
         <button class="btn btn-sm btn-danger" style="flex:1" onclick="deleteLead()">Delete lead</button>
@@ -165,6 +181,7 @@
   </div>
 </div>
 
+<!-- Add lead modal -->
 <div id="modal" style="display:none" class="modal-overlay" onclick="if(event.target===this)closeModal()">
   <div class="modal">
     <div class="modal-title">Add new lead</div>
@@ -182,6 +199,25 @@
   </div>
 </div>
 
+<!-- Contact / upgrade modal -->
+<div id="contact-modal" style="display:none" class="modal-overlay" onclick="if(event.target===this)closeContactModal()">
+  <div class="contact-modal">
+    <h2>Get your private version</h2>
+    <p>This demo is built and maintained by a freelance developer specializing in AI-powered sales and automation tools. A private version includes:</p>
+    <ul>
+      <li>Your own branding and company name</li>
+      <li>Private API key — only your team has access</li>
+      <li>Custom lead fields for your industry</li>
+      <li>Email templates tailored to your niche</li>
+      <li>CRM integrations (HubSpot, Salesforce, etc.)</li>
+      <li>Ongoing support and improvements</li>
+    </ul>
+    <p>Typical turnaround: <strong>3–5 business days.</strong> Starting at <strong>$500.</strong></p>
+    <p style="margin-bottom:16px">Reach out to discuss your needs — no obligation.</p>
+    <button class="btn btn-primary close-btn" onclick="closeContactModal()">Close</button>
+  </div>
+</div>
+
 <script>
   function daysAgo(n){const d=new Date();d.setDate(d.getDate()-n);return d.toISOString().split('T')[0];}
   let leads=JSON.parse(localStorage.getItem('lp_leads')||'[]');
@@ -196,7 +232,6 @@
     save();
   }
   let selId=null,filter='all',tone='Formal';
-  let apiKey=localStorage.getItem('lp_claude_key')||'';
 
   function save(){localStorage.setItem('lp_leads',JSON.stringify(leads));}
   function isOverdue(l){if(!l.lastContact||l.status==='Closed')return false;return Math.floor((Date.now()-new Date(l.lastContact))/86400000)>=3;}
@@ -242,7 +277,6 @@
     document.getElementById('d-status').innerHTML=['New','Contacted','Replied','Closed'].map(s=>
       `<button class="status-opt${l.status===s?' active':''}" onclick="setStatus('${s}',this)">${s}</button>`
     ).join('');
-    document.getElementById('key-section').style.display=apiKey?'none':'block';
     document.getElementById('email-out').innerHTML='<span class="placeholder-txt">Pick a tone and hit Generate — a personalized cold email will appear here.</span>';
     document.getElementById('copy-btn').style.display='none';
     renderTable();
@@ -257,29 +291,21 @@
   function setTone(t,el){tone=t;document.querySelectorAll('.tone-opt').forEach(b=>b.classList.remove('active'));el.classList.add('active');}
   function setFilter(f,el){filter=f;document.querySelectorAll('.filter-pill').forEach(b=>b.classList.remove('active'));el.classList.add('active');renderTable();}
 
-  function saveKey(){
-    const v=document.getElementById('key-input').value.trim();if(!v)return;
-    apiKey=v;localStorage.setItem('lp_claude_key',apiKey);
-    document.getElementById('key-section').style.display='none';
-    const m=document.getElementById('key-saved');m.style.display='block';setTimeout(()=>m.style.display='none',3000);
-  }
-
   async function generateEmail(){
     const l=leads.find(x=>x.id===selId);if(!l)return;
-    if(!apiKey){document.getElementById('key-section').style.display='block';return;}
     const btn=document.getElementById('gen-btn');
     btn.textContent='Generating...';btn.disabled=true;
     document.getElementById('email-out').innerHTML='<span class="placeholder-txt">Writing your email...</span>';
     const prompt=`Write a ${tone.toLowerCase()} cold outreach email to ${l.name}, who is the ${l.role} at ${l.company}. The sender is a freelance developer who builds AI-powered sales and automation tools for businesses. Keep it concise — 3 short paragraphs. Write the subject line first, then the body. No placeholders — write it ready to send.`;
     try{
       const res=await fetch('/api/generate',{
-  method:'POST',
-  headers:{'Content-Type':'application/json'},
-  body:JSON.stringify({prompt,apiKey})
-});
-const data=await res.json();
-if(data.error)throw new Error(data.error);
-document.getElementById('email-out').textContent=data.text;
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({prompt})
+      });
+      const data=await res.json();
+      if(data.error)throw new Error(data.error);
+      document.getElementById('email-out').textContent=data.text;
       document.getElementById('copy-btn').style.display='inline-block';
     }catch(e){
       document.getElementById('email-out').innerHTML=`<span style="color:#dc2626">Error: ${e.message}</span>`;
@@ -308,6 +334,8 @@ document.getElementById('email-out').textContent=data.text;
 
   function openModal(){document.getElementById('modal').style.display='flex';}
   function closeModal(){document.getElementById('modal').style.display='none';}
+  function openContactModal(){document.getElementById('contact-modal').style.display='flex';}
+  function closeContactModal(){document.getElementById('contact-modal').style.display='none';}
 
   function addLead(){
     const name=document.getElementById('f-name').value.trim();

@@ -99,6 +99,9 @@
     .shimmer { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.2s infinite; border-radius: 10px; height: 100px; }
     @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
+    .sender-bar { background: #f5f3ff; border: 1px solid #e9d5ff; border-radius: 8px; padding: 10px 14px; font-size: 12px; color: #6b21a8; display: flex; align-items: center; gap: 8px; }
+    .sender-bar strong { font-weight: 600; color: #4c1d95; }
+
     .divider { border: none; border-top: 1px solid #eee; }
 
     .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 100; }
@@ -121,6 +124,24 @@
   </style>
 </head>
 <body>
+<script>
+  /* ============================================================
+     USER CONFIGURATION — UPDATE THIS WHEN DELIVERING TO A CLIENT
+     ============================================================
+     Replace the values below with the client's real information.
+     Every email generated will automatically be signed with
+     these details. No placeholders will appear anywhere.
+     ============================================================ */
+  const USER_CONFIG = {
+    name:       "Your Name",           // e.g. "John Smith"
+    company:    "Your Company",        // e.g. "Smith Realty Group"
+    email:      "you@yourcompany.com", // e.g. "john@smithrealty.com"
+    phone:      "",                    // e.g. "555-123-4567" (optional)
+    signoff:    "Best regards"         // e.g. "Best regards" / "Thanks" / "Cheers"
+  };
+  /* ============================================================ */
+</script>
+
 <div class="app">
   <div class="demo-bar">
     <span>You're using the <strong>Demo version</strong> of LeadPulse.</span>
@@ -183,6 +204,8 @@
           <div class="da-sub">Generate a personalized 3-email follow-up sequence</div>
         </div>
 
+        <div id="sender-bar" class="sender-bar"></div>
+
         <div>
           <div class="section-lbl">Goal</div>
           <div class="goal-row">
@@ -209,7 +232,7 @@
       </div>
 
       <div class="upgrade-box">
-        <p><strong>Want this for your business?</strong> Get a private version with your branding, your own API key, and templates tailored to your industry.</p>
+        <p><strong>Want this for your business?</strong> Get a private version with your branding, your name pre-loaded, and templates tailored to your industry. Zero setup for your team.</p>
         <button class="btn btn-primary btn-sm" onclick="showUpgrade()">Get your private version →</button>
       </div>
     </div>
@@ -235,7 +258,8 @@
 
 <script>
   function daysAgo(n){const d=new Date();d.setDate(d.getDate()-n);return d.toISOString().split('T')[0];}
-  let leads=JSON.parse(localStorage.getItem('lp_v2_leads')||'[]');
+
+  let leads=JSON.parse(localStorage.getItem('lp_v3_leads')||'[]');
   if(!leads.length){
     leads=[
       {id:1,name:'Sarah Chen',company:'Brightside Insurance',role:'Operations Director',email:'s.chen@brightside.com',status:'New',lastContact:null,notes:''},
@@ -246,11 +270,22 @@
     ];
     save();
   }
+
   let selId=null, filter='all', goal='Get a response';
 
-  function save(){localStorage.setItem('lp_v2_leads',JSON.stringify(leads));}
+  function save(){localStorage.setItem('lp_v3_leads',JSON.stringify(leads));}
   function isOverdue(l){if(!l.lastContact||l.status==='Closed')return false;return Math.floor((Date.now()-new Date(l.lastContact))/86400000)>=3;}
   function daysSince(d){return d?Math.floor((Date.now()-new Date(d))/86400000):null;}
+
+  function initSenderBar(){
+    const bar=document.getElementById('sender-bar');
+    const hasConfig=USER_CONFIG.name!=='Your Name';
+    if(hasConfig){
+      bar.innerHTML=`Sending as <strong>${USER_CONFIG.name}</strong>${USER_CONFIG.company!=='Your Company'?' · '+USER_CONFIG.company:''}`;
+    } else {
+      bar.innerHTML=`<span style="color:#9333ea">Demo mode — emails will be signed as "[Your Name]". Configure USER_CONFIG at the top of the file to personalize.</span>`;
+    }
+  }
 
   function renderStats(){
     const total=leads.length;
@@ -295,6 +330,7 @@
     document.getElementById('notes-field').value=l.notes||'';
     document.getElementById('last-discussed').value='';
     document.getElementById('sequence-out').innerHTML='';
+    initSenderBar();
     renderTable();
   }
 
@@ -314,6 +350,17 @@
     btn.textContent='Saved!';setTimeout(()=>btn.textContent='Save notes',1500);
   }
 
+  function buildSignoff(){
+    const c=USER_CONFIG;
+    const isDemo=c.name==='Your Name';
+    if(isDemo) return '[Your name]\n[Your company]\n[Your email]';
+    let sig=`${c.signoff},\n${c.name}`;
+    if(c.company!=='Your Company') sig+=`\n${c.company}`;
+    if(c.email!=='you@yourcompany.com') sig+=`\n${c.email}`;
+    if(c.phone) sig+=`\n${c.phone}`;
+    return sig;
+  }
+
   async function generateSequence(){
     const l=leads.find(x=>x.id===selId);if(!l)return;
     const btn=document.getElementById('gen-btn');
@@ -322,6 +369,12 @@
     const ds=daysSince(l.lastContact);
     const lastContactTxt=ds===null?'no previous contact':ds===0?'today':ds===1?'yesterday':`${ds} days ago`;
     document.getElementById('sequence-out').innerHTML=`<div class="sequence-wrap"><div class="shimmer"></div><div class="shimmer"></div><div class="shimmer"></div></div>`;
+
+    const signoff=buildSignoff();
+    const senderContext=USER_CONFIG.name!=='Your Name'
+      ? `The sender is ${USER_CONFIG.name}${USER_CONFIG.company!=='Your Company'?' from '+USER_CONFIG.company:''}.`
+      : 'The sender is a freelance developer who builds AI-powered sales and automation tools.';
+
     const prompt=`You are a sales assistant. Generate a 3-email follow-up sequence for the following lead.
 
 Lead context:
@@ -334,18 +387,23 @@ Lead context:
 - What was discussed or offered last time: ${lastDiscussed||'Not specified'}
 - Goal of this sequence: ${goal}
 
-Generate exactly 3 emails labeled as follows:
+Sender context: ${senderContext}
+
+Sign off every email exactly like this (do not change or add anything to the signature):
+${signoff}
+
+Generate exactly 3 emails:
 Email 1 (Day 1): Initial follow-up
-Email 2 (Day 3): Bump / reminder  
+Email 2 (Day 3): Bump / reminder
 Email 3 (Day 7): Final check-in
 
 For each email use this exact format:
 SUBJECT: [subject line here]
-BODY: [email body here]
+BODY: [full email body here including the sign-off]
 
 Separate each email with exactly: ---EMAIL---
 
-Use the lead name, company, role, notes and what was discussed to make each email feel personal and specific — not generic. Keep each email to 3-5 sentences max. Write them ready to send with no placeholders.`;
+Use the lead name, company, role, notes and what was discussed to make each email feel personal and specific. Keep each email to 3-5 sentences max. Write them ready to send with no placeholders anywhere.`;
 
     try{
       const res=await fetch('/api/generate',{
@@ -369,7 +427,7 @@ Use the lead name, company, role, notes and what was discussed to make each emai
             <span class="seq-day ${dayClasses[i]}">${days[i]}</span>
             <div class="seq-actions">
               <button class="seq-btn" onclick="copySeq('${cid}')">Copy</button>
-              <button class="seq-btn" onclick="editSeq('${cid}', this)">Edit</button>
+              <button class="seq-btn" onclick="editSeq('${cid}',this)">Edit</button>
             </div>
           </div>
           <div class="seq-subject" id="${cid}-subj">${subject}</div>
@@ -392,7 +450,7 @@ Use the lead name, company, role, notes and what was discussed to make each emai
     });
   }
 
-  function editSeq(cid, btn){
+  function editSeq(cid,btn){
     const bodyEl=document.getElementById(cid+'-body');
     if(bodyEl.tagName==='DIV'){
       const cur=bodyEl.textContent;

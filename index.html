@@ -272,14 +272,14 @@
     document.getElementById('email-out').innerHTML='<span class="placeholder-txt">Writing your email...</span>';
     const prompt=`Write a ${tone.toLowerCase()} cold outreach email to ${l.name}, who is the ${l.role} at ${l.company}. The sender is a freelance developer who builds AI-powered sales and automation tools for businesses. Keep it concise — 3 short paragraphs. Write the subject line first, then the body. No placeholders — write it ready to send.`;
     try{
-      const res=await fetch('https://api.anthropic.com/v1/messages',{
-        method:'POST',
-        headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01'},
-        body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:500,messages:[{role:'user',content:prompt}]})
-      });
-      const data=await res.json();
-      if(data.error)throw new Error(data.error.message);
-      document.getElementById('email-out').textContent=data.content[0].text;
+      const res=await fetch('/api/generate',{
+  method:'POST',
+  headers:{'Content-Type':'application/json'},
+  body:JSON.stringify({prompt,apiKey})
+});
+const data=await res.json();
+if(data.error)throw new Error(data.error);
+document.getElementById('email-out').textContent=data.text;
       document.getElementById('copy-btn').style.display='inline-block';
     }catch(e){
       document.getElementById('email-out').innerHTML=`<span style="color:#dc2626">Error: ${e.message}</span>`;

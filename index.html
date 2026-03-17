@@ -26,6 +26,8 @@
     .btn-ghost:hover { background: #f5f5f5; color: #1a1a1a; border-color: #ddd; }
     .btn-danger { color: #dc2626; border-color: #fca5a5; background: #fff; }
     .btn-danger:hover { background: #fef2f2; }
+    .btn-save { background: #16a370; color: #fff; border-color: #16a370; font-size: 11px; padding: 3px 10px; border-radius: 5px; }
+    .btn-save:hover { background: #0f7a54; }
 
     .stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; padding: 14px 24px; border-bottom: 1px solid #eee; background: #fafafa; }
     .stat { background: #fff; border: 1px solid #eee; border-radius: 9px; padding: 12px 14px; }
@@ -53,6 +55,7 @@
     .s-replied { background: #f0fdf4; color: #16a34a; }
     .s-closed { background: #f5f3ff; color: #7c3aed; }
     .overdue-tag { color: #dc2626; font-size: 10px; font-weight: 700; display: block; margin-top: 2px; text-transform: uppercase; letter-spacing: .03em; }
+    .saved-indicator { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #7c3aed; margin-left: 6px; vertical-align: middle; title: 'Has saved edits'; }
     .empty-state { text-align: center; padding: 48px 24px; color: #ccc; font-size: 14px; }
 
     .detail-panel { width: 400px; border-left: 1px solid #eee; overflow-y: auto; display: flex; flex-direction: column; background: #fff; }
@@ -93,13 +96,12 @@
     .gen-seq-btn:hover { background: #6d28d9; box-shadow: 0 4px 20px rgba(124,58,237,.4); transform: translateY(-1px); }
     .gen-seq-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
 
-    .sequence-section { padding: 14px 18px 18px; display: flex; flex-direction: column; gap: 10px; }
+    .sequence-section { padding: 14px 18px 4px; display: flex; flex-direction: column; gap: 10px; }
     .confidence-header { background: #f0fdf8; border: 1px solid #bbf7d0; border-radius: 8px; padding: 10px 13px; }
     .confidence-header-title { font-size: 12px; font-weight: 700; color: #166534; margin-bottom: 2px; }
     .confidence-header-sub { font-size: 11px; color: #16a34a; line-height: 1.5; }
     .seq-top-actions { display: flex; gap: 6px; }
 
-    /* Card */
     .seq-card { background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 14px; }
     .seq-card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; gap: 8px; }
     .seq-date-block { display: flex; flex-direction: column; gap: 3px; }
@@ -108,23 +110,46 @@
     .day1 { background: #f0fdf4; color: #16a34a; }
     .day3 { background: #fffbeb; color: #d97706; }
     .day7 { background: #f5f3ff; color: #7c3aed; }
-    .seq-actions { display: flex; gap: 4px; flex-shrink: 0; }
+    .seq-actions { display: flex; gap: 4px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
     .seq-btn { font-size: 11px; font-weight: 500; padding: 4px 9px; border-radius: 5px; border: 1px solid #e5e5e5; background: #fff; color: #666; cursor: pointer; font-family: inherit; transition: all .15s; white-space: nowrap; text-decoration: none; display: inline-block; }
     .seq-btn:hover { background: #f5f5f5; }
     .seq-btn.gmail { color: #ea4335; border-color: #fca5a5; }
     .seq-btn.gmail:hover { background: #fef2f2; }
+    .seq-btn.save-btn { color: #16a370; border-color: #bbf7d0; display: none; }
+    .seq-btn.save-btn:hover { background: #f0fdf8; }
+    .seq-btn.save-btn.visible { display: inline-block; }
 
     .seq-subject { font-size: 12px; font-weight: 700; color: #1a1a1a; margin-bottom: 7px; line-height: 1.4; }
+    .seq-subject-edit { width: 100%; font-size: 12px; font-weight: 700; padding: 6px 8px; border-radius: 6px; border: 1px solid #ddd; background: #fff; color: #1a1a1a; font-family: inherit; margin-bottom: 7px; }
     .seq-body { font-size: 12px; color: #444; line-height: 1.75; white-space: pre-wrap; }
     .seq-body-edit { width: 100%; font-size: 12px; padding: 8px 10px; border-radius: 7px; border: 1px solid #ddd; background: #fff; color: #1a1a1a; font-family: inherit; resize: vertical; min-height: 100px; line-height: 1.75; }
 
-    /* Card footer — hint left, confidence tag right, same row */
     .seq-footer { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-top: 10px; padding-top: 9px; border-top: 1px solid #f5f5f5; }
     .seq-hint { font-size: 11px; color: #bbb; line-height: 1.5; font-style: italic; flex: 1; }
     .seq-conf-tag { font-size: 10px; font-weight: 600; white-space: nowrap; flex-shrink: 0; }
     .conf-high { color: #16a34a; }
     .conf-mid { color: #d97706; }
     .conf-low { color: #9333ea; }
+
+    /* Saved edits section */
+    .saved-section { padding: 14px 18px 18px; border-top: 1px solid #f0f0f0; }
+    .saved-section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .saved-section-title { font-size: 11px; font-weight: 700; color: #7c3aed; text-transform: uppercase; letter-spacing: .06em; }
+    .saved-section-sub { font-size: 11px; color: #bbb; margin-top: 2px; }
+    .saved-card { background: #faf5ff; border: 1px solid #e9d5ff; border-radius: 9px; padding: 12px 14px; margin-bottom: 8px; }
+    .saved-card:last-child { margin-bottom: 0; }
+    .saved-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; gap: 8px; }
+    .saved-card-meta { display: flex; align-items: center; gap: 8px; }
+    .saved-day-label { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 3px; text-transform: uppercase; letter-spacing: .03em; background: #f5f3ff; color: #7c3aed; }
+    .saved-timestamp { font-size: 10px; color: #bbb; }
+    .saved-goal-tag { font-size: 10px; color: #9333ea; font-weight: 500; }
+    .saved-card-actions { display: flex; gap: 4px; }
+    .saved-subject { font-size: 12px; font-weight: 700; color: #4c1d95; margin-bottom: 5px; }
+    .saved-body { font-size: 12px; color: #6b21a8; line-height: 1.65; white-space: pre-wrap; max-height: 80px; overflow: hidden; position: relative; }
+    .saved-body.expanded { max-height: none; }
+    .saved-body-fade { position: absolute; bottom: 0; left: 0; right: 0; height: 28px; background: linear-gradient(transparent, #faf5ff); pointer-events: none; }
+    .saved-body-fade.hidden { display: none; }
+    .expand-btn { font-size: 11px; color: #9333ea; background: none; border: none; cursor: pointer; font-family: inherit; padding: 4px 0; margin-top: 3px; display: block; }
 
     .shimmer { background: linear-gradient(90deg,#f0f0f0 25%,#e8e8e8 50%,#f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1s infinite; border-radius: 10px; height: 110px; }
     @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
@@ -189,9 +214,9 @@
   const COLD_OVERRIDE = "Restarting a cold conversation — lower pressure and keep it casual to reopen the loop.";
 
   const CONFIDENCE_TAGS = [
-    { label: "High response window",        cls: "conf-high" },
-    { label: "Moderate response likelihood", cls: "conf-mid"  },
-    { label: "Low but valuable touch",       cls: "conf-low"  }
+    { label: "High response window",         cls: "conf-high" },
+    { label: "Moderate response likelihood",  cls: "conf-mid"  },
+    { label: "Low but valuable touch",        cls: "conf-low"  }
   ];
 </script>
 
@@ -200,7 +225,6 @@
     <span>You're using the <strong>Demo version</strong> of LeadPulse.</span>
     <a onclick="showUpgrade()">Get a private branded version →</a>
   </div>
-
   <div class="topbar">
     <div class="logo">Lead<span>Pulse</span></div>
     <div style="display:flex;gap:8px">
@@ -208,9 +232,7 @@
       <button class="btn btn-primary btn-sm" onclick="openModal()">+ Add Lead</button>
     </div>
   </div>
-
   <div class="stats" id="stats"></div>
-
   <div class="main">
     <div class="lead-panel">
       <div class="panel-header">
@@ -235,25 +257,20 @@
         <div class="detail-name" id="d-name"></div>
         <div class="detail-meta" id="d-meta"></div>
       </div>
-
       <div class="detail-section">
         <div class="section-lbl">Stage</div>
         <div class="status-row" id="d-status"></div>
       </div>
-
       <div class="detail-section">
         <div class="section-lbl">Notes</div>
         <textarea class="notes-field" id="notes-field" placeholder="What do you know about this lead?"></textarea>
         <button class="btn btn-sm" style="margin-top:7px;border-color:#16a370;color:#16a370" onclick="saveNotes()">Save notes</button>
       </div>
-
       <div class="deal-assistant-section">
         <div class="da-eyebrow">Deal Assistant</div>
         <div class="da-title">Follow-Up Sequence</div>
         <div class="da-sub">Context-aware emails. Real schedule. Ready to send.</div>
-
         <div id="sender-bar" class="sender-bar"></div>
-
         <label class="field-label">What's the goal?</label>
         <div class="goal-grid">
           <button class="goal-opt active" onclick="setGoal('Get a response',this)">Get a response</button>
@@ -261,15 +278,12 @@
           <button class="goal-opt" onclick="setGoal('Follow up on quote',this)">Follow up on quote</button>
           <button class="goal-opt" onclick="setGoal('Final check-in',this)">Final check-in</button>
         </div>
-
         <label class="field-label">What was discussed / offered last time? <span style="color:#ccc;font-weight:400">(optional)</span></label>
         <input class="last-discussed-input" id="last-discussed" placeholder="e.g. Sent a $2,500 quote for website redesign">
-
         <div class="remind-row" onclick="toggleRemind()">
           <input type="checkbox" id="remind-check" onclick="event.stopPropagation()">
           <label for="remind-check">Remind me for Day 3 & Day 7 follow-ups</label>
         </div>
-
         <button class="gen-seq-btn" id="gen-btn" onclick="generateSequence()">Generate Follow-Up Sequence</button>
       </div>
 
@@ -279,11 +293,21 @@
         <div id="sequence-out"></div>
       </div>
 
+      <div id="saved-section" style="display:none" class="saved-section">
+        <div class="saved-section-header">
+          <div>
+            <div class="saved-section-title">Your saved edits for this lead</div>
+            <div class="saved-section-sub">Generated fresh above — your edits are here for reference.</div>
+          </div>
+          <button class="btn btn-ghost btn-sm" onclick="clearSavedEdits()" style="color:#dc2626;font-size:11px">Clear all</button>
+        </div>
+        <div id="saved-out"></div>
+      </div>
+
       <div class="bottom-actions">
         <button class="btn btn-sm btn-ghost" style="flex:1" onclick="markContacted()">Mark contacted</button>
         <button class="btn btn-sm btn-danger" style="flex:1" onclick="deleteLead()">Delete lead</button>
       </div>
-
       <div class="upgrade-box">
         <p><strong>LeadPulse isn't just writing emails —</strong> it gives you a follow-up strategy so you know what to send, when to send it, and why it works.</p>
         <button class="btn btn-primary btn-sm" onclick="showUpgrade()">Get your private version →</button>
@@ -314,8 +338,9 @@
   function addDays(n){const d=new Date();d.setDate(d.getDate()+n);return d;}
   function formatDate(d){return d.toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'});}
   function getSendLabel(o){if(o===0)return'Send today';if(o===1)return'Send tomorrow';return'Send '+formatDate(addDays(o));}
+  function formatTimestamp(iso){const d=new Date(iso);return d.toLocaleDateString('en-US',{month:'short',day:'numeric'})+' at '+d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});}
 
-  let leads=JSON.parse(localStorage.getItem('lp_v5f_leads')||'[]');
+  let leads=JSON.parse(localStorage.getItem('lp_v6_leads')||'[]');
   if(!leads.length){
     leads=[
       {id:1,name:'Sarah Chen',company:'Brightside Insurance',role:'Operations Director',email:'s.chen@brightside.com',status:'New',lastContact:null,notes:''},
@@ -329,9 +354,87 @@
 
   let selId=null,filter='all',goal='Get a response',generatedEmails=[];
 
-  function save(){localStorage.setItem('lp_v5f_leads',JSON.stringify(leads));}
+  function save(){localStorage.setItem('lp_v6_leads',JSON.stringify(leads));}
   function isOverdue(l){if(!l.lastContact||l.status==='Closed')return false;return Math.floor((Date.now()-new Date(l.lastContact))/86400000)>=3;}
   function daysSince(d){return d?Math.floor((Date.now()-new Date(d))/86400000):null;}
+
+  function getSavedEdits(leadId){
+    return JSON.parse(localStorage.getItem('lp_v6_saved_'+leadId)||'[]');
+  }
+  function setSavedEdits(leadId,edits){
+    localStorage.setItem('lp_v6_saved_'+leadId,JSON.stringify(edits));
+  }
+  function hasSavedEdits(leadId){
+    const edits=getSavedEdits(leadId);
+    return edits.length>0;
+  }
+
+  function saveCardEdit(leadId,dayIndex,subject,body,goalName){
+    const edits=getSavedEdits(leadId);
+    const dayLabels=['Day 1','Day 3','Day 7'];
+    const existing=edits.findIndex(e=>e.dayIndex===dayIndex);
+    const entry={dayIndex,dayLabel:dayLabels[dayIndex],subject,body,goal:goalName,savedAt:new Date().toISOString()};
+    if(existing>=0)edits[existing]=entry;
+    else edits.push(entry);
+    setSavedEdits(leadId,edits);
+    renderSavedSection(leadId);
+    renderTable();
+  }
+
+  function clearSavedEdits(){
+    if(!selId)return;
+    if(!confirm('Clear all saved edits for this lead?'))return;
+    localStorage.removeItem('lp_v6_saved_'+selId);
+    document.getElementById('saved-section').style.display='none';
+    renderTable();
+  }
+
+  function renderSavedSection(leadId){
+    const edits=getSavedEdits(leadId);
+    const section=document.getElementById('saved-section');
+    const out=document.getElementById('saved-out');
+    if(!edits.length){section.style.display='none';return;}
+    section.style.display='block';
+    out.innerHTML=edits.map((e,i)=>{
+      const sid=`saved-${leadId}-${i}`;
+      return`<div class="saved-card">
+        <div class="saved-card-header">
+          <div class="saved-card-meta">
+            <span class="saved-day-label">${e.dayLabel}</span>
+            <span class="saved-goal-tag">${e.goal}</span>
+            <span class="saved-timestamp">${formatTimestamp(e.savedAt)}</span>
+          </div>
+          <div class="saved-card-actions">
+            <button class="seq-btn" onclick="copySaved(${i},'${leadId}')">Copy</button>
+          </div>
+        </div>
+        <div class="saved-subject">${e.subject}</div>
+        <div style="position:relative">
+          <div class="saved-body" id="${sid}-body">${e.body}</div>
+          <div class="saved-body-fade" id="${sid}-fade"></div>
+        </div>
+        <button class="expand-btn" id="${sid}-expand" onclick="toggleExpand('${sid}')">Show more</button>
+      </div>`;
+    }).join('');
+  }
+
+  function toggleExpand(sid){
+    const body=document.getElementById(sid+'-body');
+    const fade=document.getElementById(sid+'-fade');
+    const btn=document.getElementById(sid+'-expand');
+    const expanded=body.classList.toggle('expanded');
+    fade.classList.toggle('hidden',expanded);
+    btn.textContent=expanded?'Show less':'Show more';
+  }
+
+  function copySaved(index,leadId){
+    const edits=getSavedEdits(leadId);
+    const e=edits[index];
+    if(!e)return;
+    navigator.clipboard.writeText(`Subject: ${e.subject}\n\n${e.body}`).then(()=>{
+      event.target.textContent='Copied!';setTimeout(()=>event.target.textContent='Copy',1500);
+    });
+  }
 
   function getTimingContext(ds){
     if(ds===null)return{label:'no previous contact',tier:'new'};
@@ -363,38 +466,35 @@ RULES:
 - Email 1: One short paragraph, one direct question. Under 3 sentences. No fluff.
 - Email 2: Even shorter. Just checking if Email 1 got buried. One line is fine.
 - Email 3: One casual sentence. Ask if now is a bad time. That is it.
-FORBIDDEN: "Just wanted to follow up", "Hope this finds you well", "I wanted to reach out", "touching base". Never use these phrases.
+FORBIDDEN: "Just wanted to follow up", "Hope this finds you well", "I wanted to reach out", "touching base".
 REQUIRED: Every email must end with a single clear question.`,
-
       'Re-engage cold lead':`
 GOAL: Reopen a conversation that went cold. No desperation.
 TONE: Low pressure, warm, confident. Like reconnecting with someone you respect.
 RULES:
 - Email 1: Acknowledge the gap without making it awkward. One line of value, one soft question.
 - Email 2: Share something useful or relevant to their world. Make reaching back out feel easy.
-- Email 3: Give them a genuine out — "no worries if timing is not right" — but leave the door open with warmth.
+- Email 3: Give them a genuine out but leave the door open with warmth.
 FORBIDDEN: Guilt tripping, excessive apologizing, "I know you are busy".
 REQUIRED: Each email must feel like it was written by a thoughtful human who genuinely wants to help.`,
-
       'Follow up on quote':`
 GOAL: Move a sent quote toward a yes or no. Reduce friction, invite a decision.
 TONE: Confident, helpful, focused. Like a closer who respects the buyer's time.
 RULES:
-- Email 1: Reference the specific quote or project by name and price if known. Ask if they have questions. Offer a quick call.
-- Email 2: Reframe the ROI — what does this solve? Ask directly: "Are you leaning toward moving forward?"
-- Email 3: Create light urgency — capacity, timeline, or availability. Ask for a yes or no.
+- Email 1: Reference the specific quote or project by name and price if known. Ask if they have questions.
+- Email 2: Reframe the ROI. Ask directly: "Are you leaning toward moving forward?"
+- Email 3: Create light urgency. Ask for a yes or no.
 FORBIDDEN: "Just circling back", vague language, not mentioning the actual project or price.
-REQUIRED: Every email must reference the specific project or price. Make saying yes feel like the natural next step.`,
-
+REQUIRED: Every email must reference the specific project or price.`,
       'Final check-in':`
 GOAL: Close the loop with dignity. Get a final answer either way.
-TONE: Warm, respectful, no pressure. Slight exit energy — like someone who values their own time.
+TONE: Warm, respectful, no pressure. Slight exit energy.
 RULES:
-- Email 1: Let them know this is your last follow-up. Keep it brief and human. No hard feelings.
-- Email 2: Genuinely wish them well. Mention you will close out the conversation. Make it feel clean.
-- Email 3: Final message. Leave the door open for the future. Sign off like someone who has options.
-FORBIDDEN: Passive aggression, guilt, "I have tried reaching you multiple times".
-REQUIRED: Every email must make the reader feel respected whether they reply or not. Never burn the bridge.`
+- Email 1: Let them know this is your last follow-up. Keep it brief and human.
+- Email 2: Genuinely wish them well. Make it feel clean.
+- Email 3: Final message. Leave the door open for the future.
+FORBIDDEN: Passive aggression, guilt.
+REQUIRED: Every email must make the reader feel respected whether they reply or not.`
     }[goal];
 
     return`You are a world-class sales closer writing a 3-email follow-up sequence. You write like a real human who wants the deal — not like an AI trying to be polite.
@@ -476,8 +576,9 @@ Write all 3 now. No placeholders. No generic openers. Ready to send.`;
       const ds=daysSince(l.lastContact);
       const last=ds===null?'—':ds===0?'Today':ds===1?'Yesterday':`${ds}d ago`;
       const od=isOverdue(l);
+      const hasSaved=hasSavedEdits(l.id);
       return`<tr class="lead-row${selId===l.id?' selected':''}" onclick="selectLead(${l.id})">
-        <td><span style="font-weight:600">${l.name}</span>${od?'<span class="overdue-tag">Follow up now</span>':''}</td>
+        <td><span style="font-weight:600">${l.name}</span>${hasSaved?'<span class="saved-indicator" title="Has saved edits"></span>':''}${od?'<span class="overdue-tag">Follow up now</span>':''}</td>
         <td style="color:#555">${l.company}</td>
         <td style="color:#aaa">${l.role}</td>
         <td><span class="status-badge ${sc[l.status]}">${l.status}</span></td>
@@ -502,6 +603,7 @@ Write all 3 now. No placeholders. No generic openers. Ready to send.`;
     document.getElementById('remind-check').checked=false;
     generatedEmails=[];
     initSenderBar();
+    renderSavedSection(id);
     renderTable();
   }
 
@@ -569,6 +671,9 @@ Write all 3 now. No placeholders. No generic openers. Ready to send.`;
         return{subject:sm?sm[1].trim():'Follow-up',body:bm?bm[1].trim():p,offset:offsets[i]};
       });
 
+      const currentGoal=goal;
+      const currentLeadId=selId;
+
       const cards=generatedEmails.map((e,i)=>{
         const cid=`card-${Date.now()}-${i}`;
         const conf=CONFIDENCE_TAGS[i];
@@ -582,7 +687,8 @@ Write all 3 now. No placeholders. No generic openers. Ready to send.`;
             </div>
             <div class="seq-actions">
               <button class="seq-btn" onclick="copySeq('${cid}')">Copy</button>
-              <button class="seq-btn" onclick="editSeq('${cid}',this)">Edit</button>
+              <button class="seq-btn" onclick="editSeq('${cid}',this,${i},'${currentGoal}',${currentLeadId})">Edit</button>
+              <button class="seq-btn save-btn" id="${cid}-savebtn" onclick="saveEdit('${cid}',${i},'${currentGoal}',${currentLeadId})">Save</button>
               <a class="seq-btn gmail" href="${mailto}" target="_blank">Gmail</a>
             </div>
           </div>
@@ -606,11 +712,51 @@ Write all 3 now. No placeholders. No generic openers. Ready to send.`;
     btn.textContent='Generate Follow-Up Sequence';btn.disabled=false;
   }
 
-  function copySeq(cid){
-    const subj=document.getElementById(cid+'-subj').textContent;
+  function editSeq(cid,btn,dayIndex,goalName,leadId){
+    const subjEl=document.getElementById(cid+'-subj');
     const bodyEl=document.getElementById(cid+'-body');
+    const saveBtn=document.getElementById(cid+'-savebtn');
+    if(bodyEl.tagName==='DIV'){
+      const curSubj=subjEl.textContent;
+      const curBody=bodyEl.textContent;
+      subjEl.outerHTML=`<input class="seq-subject-edit" id="${cid}-subj" value="${curSubj.replace(/"/g,'&quot;')}">`;
+      bodyEl.outerHTML=`<textarea class="seq-body-edit" id="${cid}-body">${curBody}</textarea>`;
+      saveBtn.classList.add('visible');
+      btn.textContent='Done';
+    }else{
+      const curSubj=document.getElementById(cid+'-subj').value;
+      const curBody=document.getElementById(cid+'-body').value;
+      document.getElementById(cid+'-subj').outerHTML=`<div class="seq-subject" id="${cid}-subj">${curSubj}</div>`;
+      document.getElementById(cid+'-body').outerHTML=`<div class="seq-body" id="${cid}-body">${curBody}</div>`;
+      saveBtn.classList.remove('visible');
+      btn.textContent='Edit';
+    }
+  }
+
+  function saveEdit(cid,dayIndex,goalName,leadId){
+    const subjEl=document.getElementById(cid+'-subj');
+    const bodyEl=document.getElementById(cid+'-body');
+    const subject=subjEl.tagName==='INPUT'?subjEl.value:subjEl.textContent;
     const body=bodyEl.tagName==='TEXTAREA'?bodyEl.value:bodyEl.textContent;
-    navigator.clipboard.writeText(`Subject: ${subj}\n\n${body}`).then(()=>{
+    if(!subject.trim()||!body.trim())return;
+    saveCardEdit(leadId,dayIndex,subject,body,goalName);
+    const saveBtn=document.getElementById(cid+'-savebtn');
+    saveBtn.textContent='Saved!';
+    saveBtn.style.color='#16a370';
+    saveBtn.style.borderColor='#bbf7d0';
+    setTimeout(()=>{
+      saveBtn.textContent='Save';
+      saveBtn.style.color='';
+      saveBtn.style.borderColor='';
+    },2000);
+  }
+
+  function copySeq(cid){
+    const subj=document.getElementById(cid+'-subj');
+    const bodyEl=document.getElementById(cid+'-body');
+    const subject=subj.tagName==='INPUT'?subj.value:subj.textContent;
+    const body=bodyEl.tagName==='TEXTAREA'?bodyEl.value:bodyEl.textContent;
+    navigator.clipboard.writeText(`Subject: ${subject}\n\n${body}`).then(()=>{
       event.target.textContent='Copied!';setTimeout(()=>event.target.textContent='Copy',1500);
     });
   }
@@ -622,19 +768,6 @@ Write all 3 now. No placeholders. No generic openers. Ready to send.`;
     });
   }
 
-  function editSeq(cid,btn){
-    const bodyEl=document.getElementById(cid+'-body');
-    if(bodyEl.tagName==='DIV'){
-      const cur=bodyEl.textContent;
-      bodyEl.outerHTML=`<textarea class="seq-body-edit" id="${cid}-body">${cur}</textarea>`;
-      btn.textContent='Save';
-    }else{
-      const cur=bodyEl.value;
-      bodyEl.outerHTML=`<div class="seq-body" id="${cid}-body">${cur}</div>`;
-      btn.textContent='Edit';
-    }
-  }
-
   function markContacted(){
     const l=leads.find(x=>x.id===selId);if(!l)return;
     l.lastContact=new Date().toISOString().split('T')[0];
@@ -643,6 +776,8 @@ Write all 3 now. No placeholders. No generic openers. Ready to send.`;
   }
 
   function deleteLead(){
+    if(!selId)return;
+    localStorage.removeItem('lp_v6_saved_'+selId);
     leads=leads.filter(x=>x.id!==selId);selId=null;
     document.getElementById('detail').classList.add('hidden');
     save();renderStats();renderTable();

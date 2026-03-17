@@ -21,8 +21,6 @@
     .btn:hover { background: #f5f5f5; }
     .btn-primary { background: #16a370; color: #fff; border-color: #16a370; }
     .btn-primary:hover { background: #0f7a54; }
-    .btn-purple { background: #7c3aed; color: #fff; border-color: #7c3aed; }
-    .btn-purple:hover { background: #6d28d9; }
     .btn-sm { font-size: 12px; padding: 5px 11px; }
     .btn-ghost { background: transparent; border-color: transparent; color: #888; }
     .btn-ghost:hover { background: #f5f5f5; color: #1a1a1a; border-color: #ddd; }
@@ -38,7 +36,7 @@
     .main { display: flex; min-height: 560px; }
     .lead-panel { flex: 1; padding: 18px 24px; overflow-y: auto; }
     .panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
-    .panel-title { font-size: 13px; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: .05em; }
+    .panel-title { font-size: 10px; font-weight: 700; color: #bbb; text-transform: uppercase; letter-spacing: .06em; }
     .filters { display: flex; gap: 5px; flex-wrap: wrap; }
     .filter-pill { font-size: 12px; padding: 4px 11px; border-radius: 99px; border: 1px solid #eee; background: #fff; color: #888; cursor: pointer; font-family: inherit; transition: all .15s; font-weight: 500; }
     .filter-pill.active { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
@@ -57,83 +55,92 @@
     .overdue-tag { color: #dc2626; font-size: 10px; font-weight: 700; display: block; margin-top: 2px; text-transform: uppercase; letter-spacing: .03em; }
     .empty-state { text-align: center; padding: 48px 24px; color: #ccc; font-size: 14px; }
 
-    .detail-panel { width: 390px; border-left: 1px solid #eee; padding: 0; overflow-y: auto; display: flex; flex-direction: column; background: #fff; }
+    .detail-panel { width: 400px; border-left: 1px solid #eee; overflow-y: auto; display: flex; flex-direction: column; background: #fff; }
     .detail-panel.hidden { display: none; }
-
     .detail-top { padding: 16px 18px 14px; border-bottom: 1px solid #f0f0f0; }
     .detail-name { font-size: 15px; font-weight: 700; color: #1a1a1a; letter-spacing: -.2px; }
     .detail-meta { font-size: 12px; color: #999; margin-top: 3px; line-height: 1.5; }
-    .detail-section { padding: 14px 18px; border-bottom: 1px solid #f0f0f0; }
+    .detail-section { padding: 13px 18px; border-bottom: 1px solid #f0f0f0; }
     .section-lbl { font-size: 10px; font-weight: 700; color: #bbb; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
-
     .status-row { display: flex; gap: 5px; flex-wrap: wrap; }
     .status-opt { font-size: 11px; font-weight: 600; padding: 4px 11px; border-radius: 99px; border: 1px solid #eee; background: #fff; color: #999; cursor: pointer; font-family: inherit; transition: all .15s; }
     .status-opt.active { border-color: #16a370; color: #16a370; background: #f0fdf8; }
-
-    .notes-field { width: 100%; font-size: 13px; padding: 8px 10px; border-radius: 7px; border: 1px solid #eee; background: #fafafa; color: #1a1a1a; font-family: inherit; resize: vertical; min-height: 60px; transition: border-color .15s; line-height: 1.5; }
+    .notes-field { width: 100%; font-size: 13px; padding: 8px 10px; border-radius: 7px; border: 1px solid #eee; background: #fafafa; color: #1a1a1a; font-family: inherit; resize: vertical; min-height: 60px; line-height: 1.5; }
     .notes-field:focus { outline: none; border-color: #16a370; background: #fff; }
 
-    .deal-assistant-section { padding: 16px 18px; flex: 1; }
-    .da-label { font-size: 10px; font-weight: 700; color: #bbb; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 12px; }
-    .da-title { font-size: 16px; font-weight: 700; color: #1a1a1a; letter-spacing: -.3px; margin-bottom: 3px; }
-    .da-sub { font-size: 12px; color: #999; margin-bottom: 14px; }
+    .deal-assistant-section { padding: 16px 18px 20px; background: #fafafa; border-bottom: 1px solid #f0f0f0; }
+    .da-eyebrow { font-size: 10px; font-weight: 700; color: #7c3aed; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; }
+    .da-title { font-size: 18px; font-weight: 800; color: #1a1a1a; letter-spacing: -.4px; margin-bottom: 3px; }
+    .da-sub { font-size: 12px; color: #999; margin-bottom: 16px; line-height: 1.5; }
 
-    .goal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 12px; }
-    .goal-opt { font-size: 12px; font-weight: 500; padding: 8px 10px; border-radius: 7px; border: 1px solid #eee; background: #fafafa; color: #666; cursor: pointer; font-family: inherit; transition: all .15s; text-align: center; line-height: 1.3; }
-    .goal-opt:hover { border-color: #7c3aed; color: #7c3aed; background: #faf5ff; }
-    .goal-opt.active { background: #7c3aed; color: #fff; border-color: #7c3aed; font-weight: 600; }
-
-    .sender-bar { background: #f5f3ff; border-radius: 6px; padding: 8px 11px; font-size: 12px; color: #6b21a8; margin-bottom: 10px; line-height: 1.4; }
+    .sender-bar { background: #f5f3ff; border-radius: 6px; padding: 8px 11px; font-size: 12px; color: #6b21a8; margin-bottom: 14px; line-height: 1.4; }
     .sender-bar strong { font-weight: 600; }
+    .field-label { font-size: 11px; font-weight: 700; color: #888; margin-bottom: 6px; display: block; }
 
-    .field-label { font-size: 11px; font-weight: 600; color: #999; margin-bottom: 5px; }
-    .last-discussed-input { width: 100%; font-size: 13px; padding: 8px 10px; border-radius: 7px; border: 1px solid #eee; background: #fafafa; color: #1a1a1a; font-family: inherit; transition: border-color .15s; margin-bottom: 10px; }
-    .last-discussed-input:focus { outline: none; border-color: #7c3aed; background: #fff; }
+    .goal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 14px; }
+    .goal-opt { font-size: 12px; font-weight: 500; padding: 9px 10px; border-radius: 8px; border: 1.5px solid #eee; background: #fff; color: #666; cursor: pointer; font-family: inherit; transition: all .15s; text-align: center; line-height: 1.3; }
+    .goal-opt:hover { border-color: #7c3aed; color: #7c3aed; }
+    .goal-opt.active { background: #7c3aed; color: #fff; border-color: #7c3aed; font-weight: 700; box-shadow: 0 2px 8px rgba(124,58,237,.25); }
 
-    .remind-row { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; padding: 9px 11px; background: #fffbeb; border-radius: 7px; border: 1px solid #fde68a; cursor: pointer; }
-    .remind-row input[type=checkbox] { width: 15px; height: 15px; cursor: pointer; accent-color: #d97706; }
+    .last-discussed-input { width: 100%; font-size: 13px; padding: 9px 11px; border-radius: 7px; border: 1px solid #eee; background: #fff; color: #1a1a1a; font-family: inherit; margin-bottom: 12px; transition: border-color .15s; }
+    .last-discussed-input:focus { outline: none; border-color: #7c3aed; }
+
+    .remind-row { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; padding: 9px 11px; background: #fffbeb; border-radius: 7px; border: 1px solid #fde68a; cursor: pointer; }
+    .remind-row input[type=checkbox] { width: 15px; height: 15px; cursor: pointer; accent-color: #d97706; flex-shrink: 0; }
     .remind-row label { font-size: 12px; color: #92400e; font-weight: 500; cursor: pointer; line-height: 1.4; }
 
-    .gen-seq-btn { font-size: 13px; padding: 11px 14px; border-radius: 7px; border: none; background: #7c3aed; color: #fff; cursor: pointer; font-family: inherit; font-weight: 700; width: 100%; transition: background .15s; letter-spacing: -.1px; }
-    .gen-seq-btn:hover { background: #6d28d9; }
-    .gen-seq-btn:disabled { opacity: .5; cursor: not-allowed; }
+    .gen-seq-btn { font-size: 14px; padding: 13px 14px; border-radius: 8px; border: none; background: #7c3aed; color: #fff; cursor: pointer; font-family: inherit; font-weight: 800; width: 100%; transition: all .15s; letter-spacing: -.1px; box-shadow: 0 4px 14px rgba(124,58,237,.3); }
+    .gen-seq-btn:hover { background: #6d28d9; box-shadow: 0 4px 20px rgba(124,58,237,.4); transform: translateY(-1px); }
+    .gen-seq-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
 
-    .sequence-section { padding: 14px 18px; border-top: 1px solid #f0f0f0; display: flex; flex-direction: column; gap: 8px; }
-    .seq-top-actions { display: flex; gap: 6px; margin-bottom: 4px; }
+    .sequence-section { padding: 14px 18px 18px; display: flex; flex-direction: column; gap: 10px; }
+    .confidence-header { background: #f0fdf8; border: 1px solid #bbf7d0; border-radius: 8px; padding: 10px 13px; }
+    .confidence-header-title { font-size: 12px; font-weight: 700; color: #166534; margin-bottom: 2px; }
+    .confidence-header-sub { font-size: 11px; color: #16a34a; line-height: 1.5; }
+    .seq-top-actions { display: flex; gap: 6px; }
 
-    .seq-card { background: #fafafa; border: 1px solid #eee; border-radius: 9px; padding: 13px 14px; }
-    .seq-card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 9px; gap: 8px; }
-    .seq-date-block { display: flex; flex-direction: column; gap: 2px; }
-    .seq-send-date { font-size: 12px; font-weight: 700; color: #1a1a1a; }
-    .seq-day-label { font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 3px; display: inline-block; }
+    /* Card */
+    .seq-card { background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 14px; }
+    .seq-card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; gap: 8px; }
+    .seq-date-block { display: flex; flex-direction: column; gap: 3px; }
+    .seq-send-date { font-size: 13px; font-weight: 700; color: #1a1a1a; }
+    .seq-day-label { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 3px; display: inline-block; text-transform: uppercase; letter-spacing: .03em; }
     .day1 { background: #f0fdf4; color: #16a34a; }
     .day3 { background: #fffbeb; color: #d97706; }
     .day7 { background: #f5f3ff; color: #7c3aed; }
     .seq-actions { display: flex; gap: 4px; flex-shrink: 0; }
-    .seq-btn { font-size: 11px; font-weight: 500; padding: 4px 9px; border-radius: 5px; border: 1px solid #e5e5e5; background: #fff; color: #666; cursor: pointer; font-family: inherit; transition: all .15s; white-space: nowrap; }
-    .seq-btn:hover { background: #f0f0f0; }
+    .seq-btn { font-size: 11px; font-weight: 500; padding: 4px 9px; border-radius: 5px; border: 1px solid #e5e5e5; background: #fff; color: #666; cursor: pointer; font-family: inherit; transition: all .15s; white-space: nowrap; text-decoration: none; display: inline-block; }
+    .seq-btn:hover { background: #f5f5f5; }
     .seq-btn.gmail { color: #ea4335; border-color: #fca5a5; }
     .seq-btn.gmail:hover { background: #fef2f2; }
-    .seq-subject { font-size: 12px; font-weight: 700; color: #1a1a1a; margin-bottom: 6px; line-height: 1.4; }
-    .seq-body { font-size: 12px; color: #555; line-height: 1.7; white-space: pre-wrap; }
-    .seq-body-edit { width: 100%; font-size: 12px; padding: 8px 10px; border-radius: 7px; border: 1px solid #ddd; background: #fff; color: #1a1a1a; font-family: inherit; resize: vertical; min-height: 100px; line-height: 1.7; }
 
-    .shimmer { background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1s infinite; border-radius: 9px; height: 110px; }
+    .seq-subject { font-size: 12px; font-weight: 700; color: #1a1a1a; margin-bottom: 7px; line-height: 1.4; }
+    .seq-body { font-size: 12px; color: #444; line-height: 1.75; white-space: pre-wrap; }
+    .seq-body-edit { width: 100%; font-size: 12px; padding: 8px 10px; border-radius: 7px; border: 1px solid #ddd; background: #fff; color: #1a1a1a; font-family: inherit; resize: vertical; min-height: 100px; line-height: 1.75; }
+
+    /* Card footer — hint left, confidence tag right, same row */
+    .seq-footer { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-top: 10px; padding-top: 9px; border-top: 1px solid #f5f5f5; }
+    .seq-hint { font-size: 11px; color: #bbb; line-height: 1.5; font-style: italic; flex: 1; }
+    .seq-conf-tag { font-size: 10px; font-weight: 600; white-space: nowrap; flex-shrink: 0; }
+    .conf-high { color: #16a34a; }
+    .conf-mid { color: #d97706; }
+    .conf-low { color: #9333ea; }
+
+    .shimmer { background: linear-gradient(90deg,#f0f0f0 25%,#e8e8e8 50%,#f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1s infinite; border-radius: 10px; height: 110px; }
     @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
     .bottom-actions { padding: 12px 18px; border-top: 1px solid #f0f0f0; display: flex; gap: 8px; }
+    .upgrade-box { margin: 0 18px 18px; background: #f0fdf8; border: 1px solid #bbf7d0; border-radius: 9px; padding: 13px 15px; }
+    .upgrade-box p { font-size: 12px; color: #166534; line-height: 1.6; margin-bottom: 9px; }
 
     .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 100; }
     .modal { background: #fff; border-radius: 14px; padding: 24px; width: 360px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
-    .modal-title { font-size: 16px; font-weight: 700; margin-bottom: 18px; letter-spacing: -.2px; }
+    .modal-title { font-size: 16px; font-weight: 700; margin-bottom: 18px; }
     .field { margin-bottom: 13px; }
     .field label { font-size: 12px; color: #666; display: block; margin-bottom: 4px; font-weight: 600; }
     .field input, .field select { width: 100%; font-size: 13px; padding: 9px 11px; border-radius: 7px; border: 1px solid #ddd; background: #fff; color: #1a1a1a; font-family: inherit; }
     .field input:focus, .field select:focus { outline: none; border-color: #16a370; }
     .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 18px; }
-
-    .upgrade-box { margin: 0 18px 18px; background: #f0fdf8; border: 1px solid #bbf7d0; border-radius: 9px; padding: 13px 15px; }
-    .upgrade-box p { font-size: 12px; color: #166534; line-height: 1.6; margin-bottom: 9px; }
 
     @media (max-width: 768px) {
       .stats { grid-template-columns: repeat(2,1fr); }
@@ -155,6 +162,37 @@
     signoff: "Best regards"
   };
   /* ============================================================ */
+
+  const HINTS = {
+    'Follow up on quote': [
+      "High intent window — send while the quote is still fresh in their mind.",
+      "Decision phase — ask a simple yes/no to move it forward.",
+      "Closing loop — a direct ask here often gets a clear answer."
+    ],
+    'Re-engage cold lead': [
+      "Re-entry point — keep it light and casual to reopen without pressure.",
+      "Momentum nudge — add one simple question to pull them back in.",
+      "Last touch — quiet leads often reply here or go silent."
+    ],
+    'Get a response': [
+      "Short window — send within 24 hours while the thread is still warm.",
+      "Gentle bump — one clear question keeps momentum without feeling pushy.",
+      "Pattern interrupt — keep it to 1–2 lines to trigger a reply."
+    ],
+    'Final check-in': [
+      "Closing energy — make it clear this is your last follow-up.",
+      "Dignity close — honest language here often earns a response.",
+      "Exit with clarity — a clean sign-off often triggers a final reply."
+    ]
+  };
+
+  const COLD_OVERRIDE = "Restarting a cold conversation — lower pressure and keep it casual to reopen the loop.";
+
+  const CONFIDENCE_TAGS = [
+    { label: "High response window",        cls: "conf-high" },
+    { label: "Moderate response likelihood", cls: "conf-mid"  },
+    { label: "Low but valuable touch",       cls: "conf-low"  }
+  ];
 </script>
 
 <div class="app">
@@ -210,13 +248,13 @@
       </div>
 
       <div class="deal-assistant-section">
-        <div class="da-label">Deal Assistant</div>
+        <div class="da-eyebrow">Deal Assistant</div>
         <div class="da-title">Follow-Up Sequence</div>
-        <div class="da-sub">3 emails. Right timing. Ready to send.</div>
+        <div class="da-sub">Context-aware emails. Real schedule. Ready to send.</div>
 
         <div id="sender-bar" class="sender-bar"></div>
 
-        <div class="field-label">What's the goal?</div>
+        <label class="field-label">What's the goal?</label>
         <div class="goal-grid">
           <button class="goal-opt active" onclick="setGoal('Get a response',this)">Get a response</button>
           <button class="goal-opt" onclick="setGoal('Re-engage cold lead',this)">Re-engage cold lead</button>
@@ -224,7 +262,7 @@
           <button class="goal-opt" onclick="setGoal('Final check-in',this)">Final check-in</button>
         </div>
 
-        <div class="field-label">What was discussed / offered last time? <span style="color:#ccc;font-weight:400">(optional)</span></div>
+        <label class="field-label">What was discussed / offered last time? <span style="color:#ccc;font-weight:400">(optional)</span></label>
         <input class="last-discussed-input" id="last-discussed" placeholder="e.g. Sent a $2,500 quote for website redesign">
 
         <div class="remind-row" onclick="toggleRemind()">
@@ -236,6 +274,7 @@
       </div>
 
       <div id="sequence-section" style="display:none" class="sequence-section">
+        <div class="confidence-header" id="confidence-header"></div>
         <div class="seq-top-actions" id="seq-top-actions"></div>
         <div id="sequence-out"></div>
       </div>
@@ -246,7 +285,7 @@
       </div>
 
       <div class="upgrade-box">
-        <p><strong>Want this for your business?</strong> Private version with your branding, your name, and templates for your industry.</p>
+        <p><strong>LeadPulse isn't just writing emails —</strong> it gives you a follow-up strategy so you know what to send, when to send it, and why it works.</p>
         <button class="btn btn-primary btn-sm" onclick="showUpgrade()">Get your private version →</button>
       </div>
     </div>
@@ -274,14 +313,9 @@
   function daysAgo(n){const d=new Date();d.setDate(d.getDate()-n);return d.toISOString().split('T')[0];}
   function addDays(n){const d=new Date();d.setDate(d.getDate()+n);return d;}
   function formatDate(d){return d.toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'});}
+  function getSendLabel(o){if(o===0)return'Send today';if(o===1)return'Send tomorrow';return'Send '+formatDate(addDays(o));}
 
-  function getSendLabel(offset){
-    if(offset===0) return 'Send today';
-    if(offset===1) return 'Send tomorrow';
-    return 'Send '+formatDate(addDays(offset));
-  }
-
-  let leads=JSON.parse(localStorage.getItem('lp_v4_leads')||'[]');
+  let leads=JSON.parse(localStorage.getItem('lp_v5f_leads')||'[]');
   if(!leads.length){
     leads=[
       {id:1,name:'Sarah Chen',company:'Brightside Insurance',role:'Operations Director',email:'s.chen@brightside.com',status:'New',lastContact:null,notes:''},
@@ -293,72 +327,79 @@
     save();
   }
 
-  let selId=null, filter='all', goal='Get a response';
-  let generatedEmails=[];
+  let selId=null,filter='all',goal='Get a response',generatedEmails=[];
 
-  function save(){localStorage.setItem('lp_v4_leads',JSON.stringify(leads));}
+  function save(){localStorage.setItem('lp_v5f_leads',JSON.stringify(leads));}
   function isOverdue(l){if(!l.lastContact||l.status==='Closed')return false;return Math.floor((Date.now()-new Date(l.lastContact))/86400000)>=3;}
   function daysSince(d){return d?Math.floor((Date.now()-new Date(d))/86400000):null;}
 
   function getTimingContext(ds){
-    if(ds===null) return { label:'no previous contact', tier:'new' };
-    if(ds<=1) return { label: ds===0?'today':'yesterday', tier:'fresh' };
-    if(ds<=4) return { label:`${ds} days ago`, tier:'normal' };
-    if(ds<=10) return { label:`${ds} days ago`, tier:'circling' };
-    return { label:`${ds} days ago`, tier:'reopen' };
+    if(ds===null)return{label:'no previous contact',tier:'new'};
+    if(ds<=1)return{label:ds===0?'today':'yesterday',tier:'fresh'};
+    if(ds<=4)return{label:`${ds} days ago`,tier:'normal'};
+    if(ds<=10)return{label:`${ds} days ago`,tier:'circling'};
+    return{label:`${ds} days ago`,tier:'reopen'};
   }
 
-  function buildGoalPrompt(goal, lead, timing, lastDiscussed, signoff, senderContext){
-    const t = timing;
-    const timingOpener = {
-      new: "You haven't been in contact before.",
-      fresh: `You were last in contact ${t.label} — this is a quick bump.`,
-      normal: `You were last in contact ${t.label} — a normal follow-up cadence.`,
-      circling: `You were last in contact ${t.label} — circle back naturally without pressure.`,
-      reopen: `You haven't heard back in ${t.label} — reopen the conversation gently.`
-    }[t.tier];
+  function getHint(goal,position,timing){
+    if(timing.tier==='reopen'&&position===0)return COLD_OVERRIDE;
+    return(HINTS[goal]||[])[position]||'';
+  }
 
-    const goalInstructions = {
-      'Get a response': `
+  function buildGoalPrompt(goal,lead,timing,lastDiscussed,signoff,senderContext){
+    const timingOpener={
+      new:"You have not been in contact before.",
+      fresh:`You were last in contact ${timing.label} — this is a quick bump.`,
+      normal:`You were last in contact ${timing.label}.`,
+      circling:`You were last in contact ${timing.label} — circle back naturally.`,
+      reopen:`You have not heard back in ${timing.label} — reopen the conversation carefully.`
+    }[timing.tier];
+
+    const goalInstructions={
+      'Get a response':`
 GOAL: Get a response — any response.
-TONE: Conversational, almost casual. Like a real person, not a salesperson.
-STRUCTURE:
-- Email 1: Short, direct, single question. Almost feels like a text message.
-- Email 2: Even shorter. Just checking if Email 1 got buried.
-- Email 3: Very brief. One line asking if now is a bad time.
-KEY RULES: No pitching. No features. Just open a door. Under 3 sentences each.`,
+TONE: Conversational, direct, almost like a text message. Write like a real person, not a marketer.
+RULES:
+- Email 1: One short paragraph, one direct question. Under 3 sentences. No fluff.
+- Email 2: Even shorter. Just checking if Email 1 got buried. One line is fine.
+- Email 3: One casual sentence. Ask if now is a bad time. That is it.
+FORBIDDEN: "Just wanted to follow up", "Hope this finds you well", "I wanted to reach out", "touching base". Never use these phrases.
+REQUIRED: Every email must end with a single clear question.`,
 
-      'Re-engage cold lead': `
-GOAL: Reopen a conversation that went cold.
-TONE: Low pressure, understanding, zero desperation.
-STRUCTURE:
-- Email 1: Acknowledge the silence without making it awkward. Briefly reintroduce value.
-- Email 2: Share something useful or relevant — a result, an insight, a question about their situation.
-- Email 3: Give them an easy out — "no worries if timing isn't right" — but leave the door open.
-KEY RULES: Never guilt trip. Make them feel like reaching back out is easy and pressure-free.`,
+      'Re-engage cold lead':`
+GOAL: Reopen a conversation that went cold. No desperation.
+TONE: Low pressure, warm, confident. Like reconnecting with someone you respect.
+RULES:
+- Email 1: Acknowledge the gap without making it awkward. One line of value, one soft question.
+- Email 2: Share something useful or relevant to their world. Make reaching back out feel easy.
+- Email 3: Give them a genuine out — "no worries if timing is not right" — but leave the door open with warmth.
+FORBIDDEN: Guilt tripping, excessive apologizing, "I know you are busy".
+REQUIRED: Each email must feel like it was written by a thoughtful human who genuinely wants to help.`,
 
-      'Follow up on quote': `
-GOAL: Move a sent quote toward a decision.
-TONE: Confident, helpful, focused on reducing friction.
-STRUCTURE:
-- Email 1: Reference the specific quote/proposal. Ask if they have questions. Offer a quick call.
-- Email 2: Reframe the value — what does this solve for them? Add a gentle nudge toward deciding.
-- Email 3: Create light urgency — availability, timeline, or capacity. Invite a yes or no.
-KEY RULES: Always reference the specific price or project if known. Make saying yes feel easy.`,
+      'Follow up on quote':`
+GOAL: Move a sent quote toward a yes or no. Reduce friction, invite a decision.
+TONE: Confident, helpful, focused. Like a closer who respects the buyer's time.
+RULES:
+- Email 1: Reference the specific quote or project by name and price if known. Ask if they have questions. Offer a quick call.
+- Email 2: Reframe the ROI — what does this solve? Ask directly: "Are you leaning toward moving forward?"
+- Email 3: Create light urgency — capacity, timeline, or availability. Ask for a yes or no.
+FORBIDDEN: "Just circling back", vague language, not mentioning the actual project or price.
+REQUIRED: Every email must reference the specific project or price. Make saying yes feel like the natural next step.`,
 
-      'Final check-in': `
-GOAL: Close the loop — get a decision either way.
-TONE: Respectful, light, no pressure. Slight exit energy.
-STRUCTURE:
-- Email 1: Let them know you're following up one last time. Keep it brief and warm.
-- Email 2: Genuinely wish them well. Mention you'll be closing out the conversation.
-- Email 3: Final message — leave the door open for the future. No hard feelings.
-KEY RULES: This is about dignity and long-term reputation. Never burn the bridge. Make them feel respected even if it's a no.`
+      'Final check-in':`
+GOAL: Close the loop with dignity. Get a final answer either way.
+TONE: Warm, respectful, no pressure. Slight exit energy — like someone who values their own time.
+RULES:
+- Email 1: Let them know this is your last follow-up. Keep it brief and human. No hard feelings.
+- Email 2: Genuinely wish them well. Mention you will close out the conversation. Make it feel clean.
+- Email 3: Final message. Leave the door open for the future. Sign off like someone who has options.
+FORBIDDEN: Passive aggression, guilt, "I have tried reaching you multiple times".
+REQUIRED: Every email must make the reader feel respected whether they reply or not. Never burn the bridge.`
     }[goal];
 
-    return `You are a world-class sales assistant writing a 3-email follow-up sequence.
+    return`You are a world-class sales closer writing a 3-email follow-up sequence. You write like a real human who wants the deal — not like an AI trying to be polite.
 
-LEAD CONTEXT:
+LEAD:
 - Name: ${lead.name}
 - Company: ${lead.company}
 - Role: ${lead.role}
@@ -370,31 +411,30 @@ LEAD CONTEXT:
 SENDER: ${senderContext}
 ${goalInstructions}
 
-Sign every email exactly with this signature (no changes, no additions):
+Sign every email with exactly this signature — no changes, no additions:
 ${signoff}
 
-OUTPUT FORMAT — use exactly this structure, separate emails with ---EMAIL---:
+OUTPUT — use exactly this format, separate with ---EMAIL---:
 SUBJECT: [subject line]
-BODY: [full email body with signature]
+BODY: [full email including signature]
 ---EMAIL---
 SUBJECT: [subject line]
-BODY: [full email body with signature]
+BODY: [full email including signature]
 ---EMAIL---
 SUBJECT: [subject line]
-BODY: [full email body with signature]
+BODY: [full email including signature]
 
-Write all 3 emails now. No placeholders. Ready to send.`;
+Write all 3 now. No placeholders. No generic openers. Ready to send.`;
   }
 
   function buildSignoff(){
     const c=USER_CONFIG;
-    const isDemo=c.name==='Your Name';
-    if(isDemo) return '[Your name]\n[Your company]\n[Your email]';
-    let sig=`${c.signoff},\n${c.name}`;
-    if(c.company!=='Your Company') sig+=`\n${c.company}`;
-    if(c.email!=='you@yourcompany.com') sig+=`\n${c.email}`;
-    if(c.phone) sig+=`\n${c.phone}`;
-    return sig;
+    if(c.name==='Your Name')return'[Your name]\n[Your company]\n[Your email]';
+    let s=`${c.signoff},\n${c.name}`;
+    if(c.company!=='Your Company')s+=`\n${c.company}`;
+    if(c.email!=='you@yourcompany.com')s+=`\n${c.email}`;
+    if(c.phone)s+=`\n${c.phone}`;
+    return s;
   }
 
   function initSenderBar(){
@@ -405,9 +445,19 @@ Write all 3 emails now. No placeholders. Ready to send.`;
       :`Sending as <strong>${USER_CONFIG.name}</strong>${USER_CONFIG.company!=='Your Company'?' · '+USER_CONFIG.company:''}`;
   }
 
+  function getConfidenceHeader(goal,timing,lastDiscussed){
+    const ctx=[];
+    if(timing.tier!=='new')ctx.push('last contact timing');
+    if(lastDiscussed)ctx.push('what was discussed');
+    const context=ctx.length?ctx.join(' + '):'lead details';
+    return{
+      title:`Generated using your goal, ${context}`,
+      sub:`LeadPulse isn't just writing emails — it's giving you a follow-up strategy so you know what to send, when to send it, and why it works.`
+    };
+  }
+
   function renderStats(){
-    const total=leads.length;
-    const contacted=leads.filter(l=>l.status!=='New').length;
+    const total=leads.length,contacted=leads.filter(l=>l.status!=='New').length;
     const replied=leads.filter(l=>l.status==='Replied'||l.status==='Closed').length;
     const overdue=leads.filter(isOverdue).length;
     const rate=total?Math.round(contacted/total*100):0;
@@ -426,7 +476,7 @@ Write all 3 emails now. No placeholders. Ready to send.`;
       const ds=daysSince(l.lastContact);
       const last=ds===null?'—':ds===0?'Today':ds===1?'Yesterday':`${ds}d ago`;
       const od=isOverdue(l);
-      return `<tr class="lead-row${selId===l.id?' selected':''}" onclick="selectLead(${l.id})">
+      return`<tr class="lead-row${selId===l.id?' selected':''}" onclick="selectLead(${l.id})">
         <td><span style="font-weight:600">${l.name}</span>${od?'<span class="overdue-tag">Follow up now</span>':''}</td>
         <td style="color:#555">${l.company}</td>
         <td style="color:#aaa">${l.role}</td>
@@ -472,18 +522,15 @@ Write all 3 emails now. No placeholders. Ready to send.`;
   }
 
   function scheduleNotifications(lead){
-    if(!('Notification' in window)) return;
+    if(!('Notification'in window))return;
     Notification.requestPermission().then(perm=>{
-      if(perm!=='granted') return;
-      const delays=[3,7];
-      delays.forEach(day=>{
-        const ms=day*24*60*60*1000;
+      if(perm!=='granted')return;
+      [3,7].forEach(day=>{
         setTimeout(()=>{
-          new Notification('LeadPulse — Time to follow up', {
-            body:`Follow up with ${lead.name} at ${lead.company} (${goal})`,
-            icon: ''
+          new Notification('LeadPulse — Time to follow up',{
+            body:`Follow up with ${lead.name} at ${lead.company} (${goal})`
           });
-        }, ms);
+        },day*24*60*60*1000);
       });
     });
   }
@@ -492,27 +539,22 @@ Write all 3 emails now. No placeholders. Ready to send.`;
     const l=leads.find(x=>x.id===selId);if(!l)return;
     const btn=document.getElementById('gen-btn');
     btn.textContent='Generating...';btn.disabled=true;
-
     const lastDiscussed=document.getElementById('last-discussed').value.trim();
-    const ds=daysSince(l.lastContact);
-    const timing=getTimingContext(ds);
+    const timing=getTimingContext(daysSince(l.lastContact));
     const signoff=buildSignoff();
     const senderContext=USER_CONFIG.name!=='Your Name'
-      ?`${USER_CONFIG.name}${USER_CONFIG.company!=='Your Company'?' from '+USER_CONFIG.company:''}, a freelance developer building AI-powered sales tools`
+      ?`${USER_CONFIG.name}${USER_CONFIG.company!=='Your Company'?' from '+USER_CONFIG.company:''}`
       :'a freelance developer who builds AI-powered sales and automation tools';
 
     document.getElementById('sequence-section').style.display='block';
     document.getElementById('sequence-out').innerHTML=`<div style="display:flex;flex-direction:column;gap:8px"><div class="shimmer"></div><div class="shimmer"></div><div class="shimmer"></div></div>`;
     document.getElementById('seq-top-actions').innerHTML='';
 
-    const prompt=buildGoalPrompt(goal,l,timing,lastDiscussed,signoff,senderContext);
+    const ch=getConfidenceHeader(goal,timing,lastDiscussed);
+    document.getElementById('confidence-header').innerHTML=`<div class="confidence-header-title">${ch.title}</div><div class="confidence-header-sub">${ch.sub}</div>`;
 
     try{
-      const res=await fetch('/api/generate',{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({prompt})
-      });
+      const res=await fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:buildGoalPrompt(goal,l,timing,lastDiscussed,signoff,senderContext)})});
       const data=await res.json();
       if(data.error)throw new Error(data.error);
 
@@ -522,19 +564,17 @@ Write all 3 emails now. No placeholders. Ready to send.`;
       const dayClasses=['day1','day3','day7'];
 
       generatedEmails=parts.slice(0,3).map((p,i)=>{
-        const subjectMatch=p.match(/SUBJECT:\s*(.+)/i);
-        const bodyMatch=p.match(/BODY:\s*([\s\S]+)/i);
-        return {
-          subject: subjectMatch?subjectMatch[1].trim():'Follow-up',
-          body: bodyMatch?bodyMatch[1].trim():p,
-          offset: offsets[i]
-        };
+        const sm=p.match(/SUBJECT:\s*(.+)/i);
+        const bm=p.match(/BODY:\s*([\s\S]+)/i);
+        return{subject:sm?sm[1].trim():'Follow-up',body:bm?bm[1].trim():p,offset:offsets[i]};
       });
 
       const cards=generatedEmails.map((e,i)=>{
         const cid=`card-${Date.now()}-${i}`;
-        const mailtoLink=`mailto:${l.email||''}?subject=${encodeURIComponent(e.subject)}&body=${encodeURIComponent(e.body)}`;
-        return `<div class="seq-card" id="${cid}">
+        const conf=CONFIDENCE_TAGS[i];
+        const hint=getHint(goal,i,timing);
+        const mailto=`mailto:${l.email||''}?subject=${encodeURIComponent(e.subject)}&body=${encodeURIComponent(e.body)}`;
+        return`<div class="seq-card" id="${cid}">
           <div class="seq-card-header">
             <div class="seq-date-block">
               <div class="seq-send-date">${getSendLabel(e.offset)}</div>
@@ -543,20 +583,22 @@ Write all 3 emails now. No placeholders. Ready to send.`;
             <div class="seq-actions">
               <button class="seq-btn" onclick="copySeq('${cid}')">Copy</button>
               <button class="seq-btn" onclick="editSeq('${cid}',this)">Edit</button>
-              <a class="seq-btn gmail" href="${mailtoLink}" target="_blank">Gmail</a>
+              <a class="seq-btn gmail" href="${mailto}" target="_blank">Gmail</a>
             </div>
           </div>
           <div class="seq-subject" id="${cid}-subj">${e.subject}</div>
           <div class="seq-body" id="${cid}-body">${e.body}</div>
+          <div class="seq-footer">
+            <span class="seq-hint">${hint}</span>
+            <span class="seq-conf-tag ${conf.cls}">${conf.label}</span>
+          </div>
         </div>`;
       });
 
       document.getElementById('sequence-out').innerHTML=`<div style="display:flex;flex-direction:column;gap:8px">${cards.join('')}</div>`;
-      document.getElementById('seq-top-actions').innerHTML=`<button class="btn btn-sm btn-ghost" onclick="copyAll()" style="border-color:#ddd">Copy all 3 emails</button>`;
+      document.getElementById('seq-top-actions').innerHTML=`<button class="btn btn-sm btn-ghost" onclick="copyAll()" style="border-color:#ddd;margin-bottom:4px">Copy all 3 emails</button>`;
 
-      if(document.getElementById('remind-check').checked){
-        scheduleNotifications(l);
-      }
+      if(document.getElementById('remind-check').checked)scheduleNotifications(l);
 
     }catch(e){
       document.getElementById('sequence-out').innerHTML=`<div style="font-size:13px;color:#dc2626;padding:8px 0">Error: ${e.message}</div>`;
@@ -586,7 +628,7 @@ Write all 3 emails now. No placeholders. Ready to send.`;
       const cur=bodyEl.textContent;
       bodyEl.outerHTML=`<textarea class="seq-body-edit" id="${cid}-body">${cur}</textarea>`;
       btn.textContent='Save';
-    } else {
+    }else{
       const cur=bodyEl.value;
       bodyEl.outerHTML=`<div class="seq-body" id="${cid}-body">${cur}</div>`;
       btn.textContent='Edit';
@@ -625,9 +667,7 @@ Write all 3 emails now. No placeholders. Ready to send.`;
     a.download='leadpulse_leads.csv';a.click();
   }
 
-  function showUpgrade(){
-    alert('Contact us for your private branded version of LeadPulse — starting at $500.');
-  }
+  function showUpgrade(){alert('Contact us for your private branded version of LeadPulse — starting at $500.');}
 
   renderStats();
   renderTable();
